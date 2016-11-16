@@ -3,10 +3,8 @@ package com.ms.memsource.api
 import grails.test.mixin.TestFor
 import spock.lang.Specification
 
-/**
- * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
- */
 @TestFor(RestController)
+@Mock([RestService])
 class RestControllerSpec extends Specification {
 
     def setup() {
@@ -15,6 +13,18 @@ class RestControllerSpec extends Specification {
     def cleanup() {
     }
 
-    void "test something"() {
+    void "test error handling"() {
+        setup:
+        controller.restService = Mock(RestService)
+
+        when:
+        controller.projectList()
+
+        then:
+        // Exception is catched, by handleException, status code 500 returned
+        response.status == 500
+
     }
+
+    //TODO: add more tests with HTTPBuilder mock
 }

@@ -7,14 +7,19 @@ class ConfigurationController {
 
     ConfigurationService configurationService
 
+    /**
+     * Redirect index action to "edit"
+     * There is just single configuration saved, no need to list all instances
+     * GET /
+     */
     def index() {
         redirect(action: "edit")
     }
 
-    def create() {
-
-    }
-
+    /**
+     * Edit configuration
+     * GET /configuration/edit
+     */
     def edit() {
         def configurationInstance = configurationService.getOne()
         if (configurationInstance == null)
@@ -27,12 +32,19 @@ class ConfigurationController {
 
     }
 
+    /**
+     * Update configuration
+     * @param id Configuration.id - internal id
+     * @param version Configuration.version - internal version number
+     * POST /configuration/update
+     */
     def update(Long id, Long version) {
         def configurationInstance = configurationService.getOne()
         if (configurationInstance == null)
             configurationInstance = new Configuration(params)
 
         if (version != null) {
+            // handle concurrent updates
             if (configurationInstance.version > version) {
                 configurationInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                           ["Configuration"] as Object[],

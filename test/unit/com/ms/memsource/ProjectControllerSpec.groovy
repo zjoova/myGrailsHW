@@ -3,9 +3,6 @@ package com.ms.memsource
 import grails.test.mixin.TestFor
 import spock.lang.Specification
 
-/**
- * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
- */
 @TestFor(ProjectController)
 class ProjectControllerSpec extends Specification {
 
@@ -15,6 +12,20 @@ class ProjectControllerSpec extends Specification {
     def cleanup() {
     }
 
-    void "test something"() {
+    void "test index"() {
+        when:
+        controller.index()
+
+        then:
+        response.redirectedUrl == '/project/list'
+
+    }
+
+    void "test list view"() {
+        when:
+        controller.list()
+
+        then:
+        view == '/project/list'
     }
 }

@@ -17,8 +17,11 @@ hibernate {
 // environment specific settings
 environments {
     development {
+        grails.plugin.databasemigration.updateOnStart = true
+        grails.plugin.databasemigration.updateOnStartFileNames = ['changelog.xml']
+        grails.plugin.databasemigration.changelogFileName = 'changelog.xml'
+
         dataSource {
-            dbCreate = "create-drop" // one of 'create', 'create-drop', 'update', 'validate', ''
             url = "jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE"
         }
     }
